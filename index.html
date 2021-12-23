@@ -12,27 +12,27 @@
   <body>
       <h1 class="text-center">Generate Password</h1>
     <div class="container">
-        <form>
+        <form class="form">
             <div class="mb-3">
                 <label for="password_length" class="form-label">Password length <span class="length">( 10 )</span></label>
-                <input type="range" class="form-range" id="password_length" value="10" max="30">
+                <input type="range" class="form-range password_length" value="10" max="30">
             </div>
             <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="numbers" checked>
+              <input type="checkbox" class="form-check-input" checked>
               <label class="form-check-label" for="numbers">numbers</label>
             </div>
             <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="lower_case" checked>
+                <input type="checkbox" class="form-check-input" checked>
                 <label class="form-check-label" for="lower_case">lower case</label>
             </div>
             <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="uppercase_letters">
+                <input type="checkbox" class="form-check-input">
                 <label class="form-check-label" for="uppercase_letters">uppercase letters</label>
             </div>
 
             <div class="mb-3">
                 <label for="Password_show" class="form-label">Password</label>
-                <input type="text" class="form-control" id="Password_show">
+                <input type="text" class="form-control">
               </div>
             <button type="button" class="btn btn-primary generate_password">Generate</button>
           </form>

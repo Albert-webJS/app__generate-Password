@@ -1,55 +1,65 @@
-"use strict";
+const form = document.forms;
+let lengthValue = document.querySelector(".length");
 
-const range = document.querySelector(".form-range");
-let showLengthPassword = document.querySelector(".length");
-const generatePassword = document.querySelector(".generate_password");
-const numbers = document.getElementById("numbers");
-const lowerCaseLetter = document.getElementById("lower_case");
-const upperCaseLetter = document.getElementById("uppercase_letters");
-const passwordShow = document.getElementById("Password_show");
+// function iterable for number from Unicode table
+function symbolCodePoint(start, end) {
+  let array = [];
 
-let str = [];
-let string = "";
-
-//    function generate
-function* generateSequence(start, end) {
-  for (let i = start; i <= end; i++) yield i;
-}
-
-function* generatePasswordCodes() {
-  // 0..9
-  if (numbers.checked) {
-    yield* generateSequence(48, 57);
+  for (let i = start; i <= end; i++) {
+    array.push(i);
   }
-  // A..Z
-  if (upperCaseLetter.checked) {
-    yield* generateSequence(65, 90);
+  return array;
+}
+// generate symbol from Unicode table
+function generatePasswordCodes() {
+  const array = [];
+
+  for (let elementForm of form) {
+    // numbers symbol for password
+    if (elementForm[1].checked) {
+      let codeSymbolNumber = symbolCodePoint(48, 57);
+      array.push(codeSymbolNumber);
+    }
+    // lowerCase symbol for password
+    if (elementForm[2].checked) {
+      let codeSymbolLowerCase = symbolCodePoint(65, 90);
+      array.push(codeSymbolLowerCase);
+    }
+    // upperCase symbol for password
+    if (elementForm[3].checked) {
+      let codeSymbolUpperCase = symbolCodePoint(97, 122);
+      array.push(codeSymbolUpperCase);
+    }
   }
-  // a..z
-  if (lowerCaseLetter.checked) {
-    yield* generateSequence(97, 122);
-  }
+  return array;
 }
+// sort array element for generatePasswordCodes()
+function sortCode(arr) {
+  let result = [].concat(...arr);
+  result.sort(() => Math.random() - 0.5);
 
-function randoomInt() {
-  return Math.random() - 0.5;
+  return result;
 }
-function clearing() {
-  str = [];
-  string = "";
-}
-
-range.addEventListener("input", function () {
-  showLengthPassword.innerHTML = `( ${this.value} )`;
-});
-
-generatePassword.addEventListener("click", () => {
-  for (let code of generatePasswordCodes()) {
+// function transform symbol Unicode in string
+function symbolUniCode() {
+  let str = "";
+  for (let code of sortCode(generatePasswordCodes())) {
     str += String.fromCodePoint(code);
   }
-  let stringChart = Array.from(str).sort(randoomInt);
-  stringChart.length = range.value;
-  string = stringChart;
-  passwordShow.value = string.join("");
-  clearing();
-});
+  for (let sliceSring of form) {
+    return str.slice(0, sliceSring[0].value);
+  }
+}
+// event handlers
+for (let lengthPassword of form) {
+  // input class password length
+  lengthPassword[0].addEventListener("input", function () {
+    lengthValue.innerHTML = `( ${this.value} )`;
+  });
+}
+
+for (let generatePassword of form) {
+  generatePassword[5].addEventListener("click", () => {
+    generatePassword[4].value = symbolUniCode();
+  });
+}
